@@ -1,0 +1,155 @@
+var connection = require("../config/connection.js");
+
+function printQuestionMarks(num) {
+  var arr = [];
+
+  for (var i = 0; i < num; i++) {
+    arr.push("?");
+  }
+  return arr.toString();
+}
+
+function objToSql(ob) {
+  var arr = [];
+  for (var key in ob) {
+    var value = ob[key];
+    if(Object.hasOwnProperty.call(ob, key)) {
+      if(typeof value === "string" && value.indexOf (" ") >= 0) {
+        value = "'" + value + "'";
+      }
+      arr.push(key + "=" + value);
+    }
+  }
+  return arr.toString();
+}
+//   if(Object.hasOwnProperty.call(ob, key)) {
+//     if (typeof value === "string" && value.indexOf(" ") >= 0) {
+//       value = "'" + value + "'";
+//     }
+//     arr.push(key + "=" + value);
+//   }
+// }
+
+var orm = {
+  selectAll: function(tableInput, cb) {
+    var queryString = "SELECT * FROM " + tableInput + ";";
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
+
+  insertOne: function(table, cols, vals, cb) {
+    var queryString = "INSERT INTO " + table;
+
+    queryString += "(";
+    queryString += cols.toString();
+    queryString += ")";
+    queryString += "VALUES (";
+    queryString += printQuestionMarks(vals.length);
+    queryString += ") ";
+
+    console.log(queryString);
+
+    connection.query(queryString, vals, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
+
+  updateOne: function(table, objColVals, condition, cb) {
+    var queryString = "UPDATE " + table;
+
+    queryString += " SET ";
+    queryString += objToSql(objColVals);
+    queryString += " WHERE ";
+    queryString += condition;
+
+    console.log(queryString);
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
+
+  // delete: function(table, condition, cb) {
+  //   var queryString = "DELECT FROM " + table;
+  //   queryString += " WHERE ";
+  //   queryString += condition;
+
+  //   connection.query(queryString, function(err, result) {
+  //     if (err) {
+  //       throw err;
+  //     }
+  //     cb(result);
+  //   });
+  // }
+
+};
+
+module.exports = orm;
+
+// var connection = require("./connection.js");
+
+// var orm = {
+//   selectAll: function(tableName, callBack) {
+//     var queryString = `SELECT * FROM ${tableName}`
+//     connection.query(queryString, function(err, res) {
+//       return callBack(err, res);
+//     });
+//   },
+
+//   selectById: function(tableName, id, callBack) {
+//     var queryString = `SELECT * FROM ${tableName} WHERE id = ${id}`
+//     // console.log(queryString);
+//     connection.query(queryString, function(err, res) {
+//       //the index zero removes array
+//       return callBack(err, res[0]);
+//     });
+//   },
+
+//   create: function(tableName, columnName, burgerName, callBack) {
+//     var queryString = `
+//     INSERT INTO ${tableName} (${columnName})
+//     VALUES ("${burgerName}")`
+//     // console.log(queryString);
+//     connection.query(queryString, function(err, res) {
+//       return callBack(err, res.insertId);
+//     });
+//   },
+  
+//   update: function(tableName, columnName, value, id, callBack) {
+//     var queryString = `
+//     UPDATE ${tableName} SET ${columnName} = ${value} WHERE id =${id}`
+//     // console.log(queryString);
+//     connection.query(queryString, function(err, res) {
+//       return callBack(err, res.message);
+//     });
+//   },
+
+
+// };
+
+// module.exports = orm;
+
+// // orm.selectAll("burgers", function(err, res) {
+// //   console.log(res[0]);
+// // });
+
+// // orm.selectById("burgers", 2, function(err, res) {
+// //   console.log(res);
+// // });
+
+// // orm.create("burgers", "burger_name","BBQ", function(err, res) {
+// //   console.log(res);
+// // });
+
+// // orm.update("burgers", "devoured", "false", 7, function(err, res) {
+// //   console.log(res);
+// // });
