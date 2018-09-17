@@ -1,7 +1,9 @@
-<h1>Eat Da Burger!</h1>
-
+{{!-- <h1>Eat Da Burger!</h1> --}}
+<div class="container">
+<div class="wrapper clearfix">
 <div id = "readyToEat">
 <h2>Burgers To Be Devoured</h2>
+
 <ul>
   {{#each burgers}}
     {{#unless devoured}}
@@ -26,6 +28,7 @@
   {{/each}}
 </ul>
 </div>
+</div>
 
 <div id = "newBurger">
   <h2>Add a Burger</h2>
@@ -36,6 +39,7 @@
       <input type="text" id="burger" name="name">
     </div>
 
-    <button type="submit">Create The Burger!</button>
+    <button class="submit" type="submit">Create The Burger!</button>
   </form>
+</div>
 </div>

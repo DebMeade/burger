@@ -5,3 +5,36 @@ body {
   /* background-image: url("/assets/img/burger.jpeg"); */
   font-family: Georgia, serif;
 }
+p {
+  text-align: center;
+}
+#readyToEat {
+  float: left;
+  width: 50%;
+}
+#devouredBurgers {
+  float: right;
+  width: 50%;
+}
+#newBurger {
+  width: 75%;
+  text-align: center;
+}
+.clearfix::after {
+  content:"";
+  display: block;
+  clear: both;
+}
+.img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+.btnDevour {
+  margin-left: 40px;
+  margin-top: 5px;
+}
+.submit {
+  margin-bottom: 15px;
+}
