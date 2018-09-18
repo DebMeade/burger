@@ -32,8 +32,11 @@ p {
   width: 40%;
 }
 .btnDevour {
-  margin-left: 40px;
   margin-top: 5px;
+  float: right;
+  margin-right: 50px;
+  max-height: 20px;
+  font-size: 10px;
 }
 .submit {
   margin-bottom: 15px;
